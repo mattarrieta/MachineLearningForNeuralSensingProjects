@@ -1,0 +1,53 @@
+voltages = load('Lab3Part3Voltages.txt');
+size(voltages);
+X = -1:.0001:1;
+Y = zeros(1,20001);
+Z = zeros(1,20001);
+%size(X)
+%size(Y)
+%size(Z)
+%interpolation = griddata(voltages(:,1),voltages(:,2), voltages(:,3), voltages(:,4), neuron.XYZ(:,1), neuron.XYZ(:,2), neuron.XYZ(:,3));
+interpolation = griddata(voltages(:,1),voltages(:,2), voltages(:,3), voltages(:,4),X, Y, Z);
+size(interpolation);
+figure(1);
+plot(X, interpolation);
+title("Voltage Over Distance")
+xlabel("")
+
+secondDerivative = diff(diff(interpolation));
+%size(interpolation)
+%size(X)
+length(secondDerivative)
+length(X)
+figure(2)
+plot(X(1:19999), secondDerivative);
+
+%{
+x = voltages(:,1);
+y = voltages(:,2);
+z = voltages(:,3);
+distance = 1:1814;
+line = -10:.1:10;
+
+smallestDistance = 100000;
+closestVoltages = zeros(201,1);
+
+for i = 1:201
+    smallestDistance = 100000;
+    indexVoltage = 0;
+    for k = 1:1814
+        tempDistance = sqrt((x(k)- line(i))^2+(y(k))^2+(z(k))^2);
+        if(tempDistance < smallestDistance)
+            smallestDistance = tempDistance;
+            indexVoltage = k;
+        end
+    end
+    closestVoltages(i) = voltages(indexVoltage,4);
+end
+size(line)
+size(closestVoltages)
+plot(line, closestVoltages);
+%}
+%Line through the middle contact. Calculate voltage at every part of that
+%line. Find closest XYZ. 
+

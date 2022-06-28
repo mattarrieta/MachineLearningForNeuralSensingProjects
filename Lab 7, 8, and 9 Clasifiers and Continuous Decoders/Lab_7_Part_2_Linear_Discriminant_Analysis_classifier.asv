@@ -1,0 +1,22 @@
+load("ecogclassifydata.mat")
+trainingData = powervals(1:38,:);
+testData = powervals(39,:);
+size(trainingData)
+size(testData)
+size(group(1:38))
+testClass = classify(testData, trainingData, group(1:38), 'linear');
+%size(trainingData(38:37,:))
+%size(powervals(40:39,:))
+%size(vertcat(powervals(1:0,:), powervals(1:39,:)))
+numCorrect = 0;
+for i=1:39
+    trainingData = vertcat(powervals(1:-1+i,:), powervals(i+1:39,:));
+    testData = powervals(i,:);
+    trainingClasses = vertcat(group(1:-1+i,:), group(i+1:39,:));
+    testClass = classify(testData, trainingData, trainingClasses, 'linear');
+    if(testClass == group(i))
+        numCorrect = numCorrect + 1;
+    end
+end
+accuracy = numCorrect/39;
+
